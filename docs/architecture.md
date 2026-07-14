@@ -27,17 +27,24 @@ unrelated concepts (e.g., end of "Sprint Review" bleeding into start of
 detected headings, then chunking within a section, avoids this at the cost
 of slightly more ingestion code.
 
-**Known limitation (see evaluation results):** when two headings appear
-close together on one page, the section-splitting logic can occasionally
-mis-attribute a paragraph to the wrong section label, and the merge-small-
-chunks pass (which folds undersized fragments into a neighbor) can carry a
-chunk's *content* across into the *next* section's label. This shows up in
-the evaluation report as "right content, wrong section metadata" -- the
-snippet-match rate (93%) is meaningfully higher than the section-match
-recall (60%) for exactly this reason. Fixing it properly means detecting
-heading *positions* more precisely (e.g. via font-size metadata from the
-PDF rather than plain-text search) rather than string-matching heading
-names after the fact.
+**Fixed (previously a known limitation):** section headings used to be
+detected with plain-text search (`text.find(heading)`), which could match
+a heading's name mentioned in passing prose or as a bolded inline term
+(e.g. "Sprint Backlog" bolded within the Sprint Planning section) instead
+of the actual heading, causing some chunks to carry the right *content*
+under the wrong section *label*. This showed up in the evaluation report
+as a gap between snippet-match rate (93%) and section-match recall (60%).
+
+`ingestion/extract.py` now detects headings using pdfplumber's
+character-level font-size metadata instead of plain-text search: a line is
+only accepted as a real heading if it's rendered at a distinctly larger
+size (>=1.0pt above body text) than surrounding prose, which reliably
+separates true headings (13-24pt across all 4 guides) from same-size
+bolded inline terms. `ingestion/chunker.py` resolves each heading to its
+correct occurrence on the page using this signal, rather than blindly
+taking the first text match. After the fix, snippet-match rate reached
+1.0 and section-match recall rose to 0.867 (from 0.60) -- see the README's
+"Current evaluation snapshot" for the full before/after numbers.
 
 ## 3. Why hybrid retrieval (dense + BM25) instead of dense-only
 
@@ -93,11 +100,12 @@ weight without overfitting to the golden Q&A set.
    sentence-transformers model) -- highest-leverage quality improvement.
 2. Swap the lexical-overlap `reranker.py` stand-in for a real cross-encoder
    (`bge-reranker-base` or similar) once model downloads are available.
-3. Fix section-boundary detection using PDF font-size/style metadata
-   instead of plain-text heading string matching, to resolve the
-   section-mislabeling gap noted in Section 2 above.
-4. Expand `golden_qa_set.jsonl` well beyond 15 questions before treating
+3. Expand `golden_qa_set.jsonl` well beyond 15 questions before treating
    `retrieval_eval.py` numbers as a reliable regression gate.
-5. Add a real cross-encoder-based `generation_eval.py` (faithfulness /
+4. Add a real cross-encoder-based `generation_eval.py` (faithfulness /
    groundedness scoring) -- currently only retrieval is evaluated
    quantitatively; generation quality still needs a human or LLM-judge pass.
+
+~~Fix section-boundary detection using PDF font-size/style metadata~~ --
+**done**: `ingestion/extract.py`/`ingestion/chunker.py` now use font-size
+metadata for heading detection (see Section 2 above).

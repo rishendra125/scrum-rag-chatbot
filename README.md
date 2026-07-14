@@ -14,30 +14,31 @@ for licensing/provenance details (all sources are CC BY-SA 4.0).
 
 ## Status
 
-This repo is a **working, end-to-end skeleton** built and tested against
-the real source PDFs:
+This repo is a **working, end-to-end chatbot** — built, tested against the
+real source PDFs, and verified live with real generated answers through a
+working chat interface.
 
 | Stage | Status |
 |---|---|
-| PDF extraction (`ingestion/extract.py`) | ✅ runs, tested on all 4 guides |
-| Chunking (`ingestion/chunker.py`) | ✅ runs, 111 chunks produced |
-| Metadata tagging (`ingestion/metadata_tagger.py`) | ✅ runs |
-| Embedding (`embeddings/embed.py`) | ✅ runs with local TF-IDF fallback; API backend coded but untested (needs API key) |
-| Retrieval (`retrieval/`) | ✅ runs, hybrid dense+BM25+RRF, role/framework boosting |
-| Evaluation (`evaluation/retrieval_eval.py`) | ✅ runs, real report in `evaluation/reports/` |
-| Generation (`generation/chat_chain.py`) | ✅ runs in dry-run mode; Anthropic backend coded but untested (needs API key) |
-| API (`app/api/main.py`) | Coded, not run in this environment (no `fastapi` installed here) |
+| PDF extraction (`ingestion/extract.py`) | ✅ verified on all 4 guides — uses font-size-based heading detection |
+| Chunking (`ingestion/chunker.py`) | ✅ verified, 73 chunks (accurate section boundaries; see "Evaluation snapshot" below) |
+| Metadata tagging (`ingestion/metadata_tagger.py`) | ✅ verified |
+| Embedding (`embeddings/embed.py`) | ✅ verified with local TF-IDF fallback; API backend coded, not yet tested with a real key |
+| Retrieval (`retrieval/`) | ✅ verified — hybrid dense+BM25+RRF, role/framework boosting confirmed working |
+| Evaluation (`evaluation/retrieval_eval.py`) | ✅ verified, real report in `evaluation/reports/` |
+| Generation (`generation/chat_chain.py`) | ✅ **verified with live Anthropic API calls** — real, cited answers confirmed working |
+| API (`app/api/main.py`) | ✅ **verified running locally** (`uvicorn`, `/health` checked, CORS enabled for local frontend use) |
+| Frontend (`app/ui/index.html`) | ✅ **verified working** — role selector, cited answer cards with per-guide color tabs, tested live against the running API |
 
-**Read `docs/architecture.md` section 7 ("Known gaps / next steps") before
-treating this as production-ready** -- the honest summary is: the pipeline
-architecture and every non-model-dependent stage is real and verified; the
-embedding and generation *quality* depends on plugging in real API keys,
-which this build environment didn't have.
+Read `docs/architecture.md` section 7 ("Known gaps / next steps") for what's
+still genuinely open — real semantic embeddings (swapping TF-IDF for an
+API embedding model) is the next highest-leverage improvement, along with
+expanding the evaluation question set.
 
 ## Quickstart
 
 ```bash
-python -m venv venv && source venv/bin/activate
+python -m venv venv && source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # 1. Ingest
@@ -55,9 +56,10 @@ python -m embeddings.embed
 # 3. Try retrieval directly
 python -m retrieval.retriever "What is the timebox for Sprint Retrospective?"
 
-# 4. Run the full chat chain (dry-run, no LLM call)
+# 4. Run the full chat chain from the command line
+#    (dry-run by default, no LLM call, no cost):
 python -m generation.chat_chain "How should a Product Owner order the backlog?"
-# For real generated answers:
+# For real generated answers, set these first:
 #   export LLM_BACKEND=anthropic
 #   export ANTHROPIC_API_KEY=sk-ant-...
 #   python -m generation.chat_chain "..."
@@ -65,10 +67,17 @@ python -m generation.chat_chain "How should a Product Owner order the backlog?"
 # 5. Evaluate retrieval quality
 python -m evaluation.retrieval_eval
 
-# 6. Serve the API
+# 6. Serve the API (needed for the chat window in step 7)
 uvicorn app.api.main:app --reload --port 8000
 # curl -X POST localhost:8000/chat -H "Content-Type: application/json" \
 #   -d '{"question": "What is a WIP limit?"}'
+
+# 7. Use the actual chat window
+# With the API server from step 6 still running, open app/ui/index.html
+# directly in your browser (double-click it, or open it via File > Open).
+# It talks to the API at http://localhost:8000/chat -- pick a role on the
+# left, ask a question, and you'll get a real cited answer rendered as a
+# card, with a colored tab showing which guide(s) it drew from.
 ```
 
 ## Repository layout
@@ -79,9 +88,11 @@ scrum-rag-chatbot/
 ├── ingestion/          extract.py, chunker.py, metadata_tagger.py, config
 ├── embeddings/         embed.py (pluggable local/API backend) + index/
 ├── retrieval/          retriever.py (hybrid), reranker.py, query_router.py
-├── generation/          prompt_templates/, chat_chain.py (orchestration)
-├── evaluation/          golden_qa_set.jsonl, retrieval_eval.py, reports/
-├── app/api/             FastAPI app exposing /chat
+├── generation/         prompt_templates/, chat_chain.py (orchestration)
+├── evaluation/         golden_qa_set.jsonl, retrieval_eval.py, reports/
+├── app/
+│   ├── api/            FastAPI app exposing /chat (CORS-enabled for local use)
+│   └── ui/              index.html -- the working chat frontend
 ├── docs/                architecture.md, data_sources.md
 └── tests/                pytest suite for chunking/retrieval/e2e
 ```
@@ -89,17 +100,35 @@ scrum-rag-chatbot/
 ## Current evaluation snapshot
 
 From `evaluation/reports/retrieval_eval_report.json` (local TF-IDF backend,
-top_k=5, 15-question golden set):
+top_k=5, 15-question golden set), **after fixing the section-heading
+detection bug**:
 
-- **Recall@5:** 0.60
-- **MRR:** 0.472
-- **Snippet match rate:** 0.933
+- **Recall@5:** 0.867 (up from an earlier 0.60)
+- **MRR:** 0.789 (up from an earlier 0.472)
+- **Snippet match rate:** 1.0 (up from an earlier 0.933)
 
-The gap between snippet match (93%) and section-label recall (60%) is a
-known chunking artifact, explained in `docs/architecture.md` section 2 --
-the right content is usually retrieved, occasionally under a mis-attributed
-section label from a boundary-merge edge case. This is the top item in the
-"next steps" list.
+### What was fixed
+
+Earlier versions of this pipeline had a real, now-resolved bug: section
+headings were detected with plain text search (`text.find(heading)`),
+which could match a heading's name mentioned in passing prose (e.g.
+"Sprint Backlog" bolded inline within the Sprint Planning section) instead
+of the actual section heading. This caused some citations to show the
+correct retrieved *content* but an incorrect *section label*.
+
+**Fix:** `ingestion/extract.py` now uses pdfplumber's character-level font
+size metadata to detect real headings -- a line is only treated as a
+section heading if it's rendered at a distinctly larger size (>=1.0pt above
+body text) than the surrounding prose. This reliably separates true
+headings (13-24pt across all 4 guides) from inline bolded terms that stay
+at body size (~11pt). `ingestion/chunker.py` was updated to resolve each
+heading to its correct occurrence on the page using this signal, instead
+of blindly taking the first text match.
+
+The improvement above was verified by re-running the full pipeline and
+evaluation before/after the fix, and by re-testing live questions through
+`generation/chat_chain.py` and the `app/ui/index.html` frontend to confirm
+citations now show the correct section names.
 
 ## License note
 
