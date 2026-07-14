@@ -35,6 +35,44 @@ still genuinely open — real semantic embeddings (swapping TF-IDF for an
 API embedding model) is the next highest-leverage improvement, along with
 expanding the evaluation question set.
 
+## Try It Yourself
+
+This project is free and open to run — but it is **not a live, hosted
+chatbot**. There is no shared or public API key. To try it, you run it
+on your own machine using **your own Anthropic API key**, which means:
+
+- You control your own cost (a few dollars of credit covers extensive
+  testing — see "Current evaluation snapshot" for typical usage).
+- The maintainer's API key is never shared, embedded, or accessible
+  through this repository in any way.
+
+### Steps to run it with your own key
+
+1. Clone this repo and follow the **Quickstart** section below (steps 1-6)
+   to get the pipeline running locally in offline/dry-run mode first —
+   no API key needed for this part, and it costs nothing.
+2. Create a free account at [console.anthropic.com](https://console.anthropic.com)
+   and generate your own API key under **API Keys**.
+3. Add a small amount of credit under **Plans & Billing** (a few dollars
+   is enough for extensive testing).
+4. Copy `.env.example` to a new file named `.env` in the project root,
+   and fill in your own key:
+   ```
+   LLM_BACKEND=anthropic
+   ANTHROPIC_API_KEY=sk-ant-your-own-key-here
+   ```
+5. **Never commit your `.env` file.** It's already excluded via
+   `.gitignore` — double-check it doesn't appear in `git status` before
+   pushing any changes of your own.
+6. Run the chat chain or start the API server (see Quickstart steps 4-7)
+   — you're now using your own key, at your own cost, under your own
+   control.
+
+If you don't want to set up an API key at all, the pipeline still runs
+fully in **dry-run mode** (no cost, no key required) — you'll see exactly
+which guide passages would be retrieved and how the prompt gets
+assembled, just without a generated answer at the end.
+
 ## Quickstart
 
 ```bash
