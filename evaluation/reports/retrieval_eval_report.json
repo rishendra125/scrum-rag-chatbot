@@ -1,0 +1,129 @@
+{
+  "top_k": 5,
+  "n_questions": 15,
+  "recall_at_k": 0.867,
+  "mrr": 0.789,
+  "snippet_match_rate": 1.0,
+  "per_question": [
+    {
+      "id": "q001",
+      "question": "What is the timebox for Sprint Retrospective in a one-month Sprint?",
+      "expected": "scrum_guide_2020 / Sprint Retrospective",
+      "found_at_rank": 1,
+      "snippet_found": true,
+      "top_result": "The Scrum Guide > Sprint Retrospective"
+    },
+    {
+      "id": "q002",
+      "question": "How long is the Daily Scrum?",
+      "expected": "scrum_guide_2020 / Daily Scrum",
+      "found_at_rank": 1,
+      "snippet_found": true,
+      "top_result": "The Scrum Guide > Daily Scrum"
+    },
+    {
+      "id": "q003",
+      "question": "What are the four basic metrics of flow in Kanban?",
+      "expected": "kanban_guide_2021 / The Basic Metrics of Flow",
+      "found_at_rank": 1,
+      "snippet_found": true,
+      "top_result": "The Kanban Guide for Scrum Teams > The Basic Metrics of Flow"
+    },
+    {
+      "id": "q004",
+      "question": "What does Little's Law describe?",
+      "expected": "kanban_guide_2021 / Little\u2019s Law",
+      "found_at_rank": 1,
+      "snippet_found": true,
+      "top_result": "The Kanban Guide for Scrum Teams > Little\u2019s Law"
+    },
+    {
+      "id": "q005",
+      "question": "What are the three Scrum pillars of empirical process control?",
+      "expected": "scrum_guide_2020 / Scrum Theory",
+      "found_at_rank": 3,
+      "snippet_found": true,
+      "top_result": "The Agility Guide to Evidence-Based Change > Transparency"
+    },
+    {
+      "id": "q006",
+      "question": "What are the four Key Value Areas in Evidence-Based Management?",
+      "expected": "ebm_guide_2024 / EBM Uses Key Value Areas to Examine Improvement Opportunities",
+      "found_at_rank": null,
+      "snippet_found": true,
+      "top_result": "The Evidence-Based Management Guide > Hypotheses, Experiments, Features, and Requirements"
+    },
+    {
+      "id": "q007",
+      "question": "What is Unrealized Value in EBM?",
+      "expected": "ebm_guide_2024 / Unrealized Value",
+      "found_at_rank": 2,
+      "snippet_found": true,
+      "top_result": "The Evidence-Based Management Guide > Hypotheses, Experiments, Features, and Requirements"
+    },
+    {
+      "id": "q008",
+      "question": "Who is accountable for ordering the Product Backlog?",
+      "expected": "scrum_guide_2020 / Product Owner",
+      "found_at_rank": 1,
+      "snippet_found": true,
+      "top_result": "The Scrum Guide > Product Owner"
+    },
+    {
+      "id": "q009",
+      "question": "What is the Enterprise Product Owner responsible for in the Agility Guide?",
+      "expected": "agility_guide_v1_5 / Enterprise Product Owner",
+      "found_at_rank": 1,
+      "snippet_found": true,
+      "top_result": "The Agility Guide to Evidence-Based Change > Enterprise Product Owner"
+    },
+    {
+      "id": "q010",
+      "question": "What are the five Scrum values?",
+      "expected": "scrum_guide_2020 / Scrum Values",
+      "found_at_rank": 1,
+      "snippet_found": true,
+      "top_result": "The Scrum Guide > Scrum Values"
+    },
+    {
+      "id": "q011",
+      "question": "How long is Sprint Planning for a one-month Sprint?",
+      "expected": "scrum_guide_2020 / Sprint Planning",
+      "found_at_rank": 1,
+      "snippet_found": true,
+      "top_result": "The Scrum Guide > Sprint Planning"
+    },
+    {
+      "id": "q012",
+      "question": "What is a Service Level Expectation (SLE) in Kanban?",
+      "expected": "kanban_guide_2021 / Active Management of Work Items",
+      "found_at_rank": 1,
+      "snippet_found": true,
+      "top_result": "The Kanban Guide for Scrum Teams > Active Management of Work Items"
+    },
+    {
+      "id": "q013",
+      "question": "What are the Evidence-Based Change domains in the Agility Guide?",
+      "expected": "agility_guide_v1_5 / Domains",
+      "found_at_rank": 1,
+      "snippet_found": true,
+      "top_result": "The Agility Guide to Evidence-Based Change > Domains"
+    },
+    {
+      "id": "q014",
+      "question": "What is the definition of an Increment in Scrum?",
+      "expected": "scrum_guide_2020 / Increment",
+      "found_at_rank": 1,
+      "snippet_found": true,
+      "top_result": "The Scrum Guide > Increment"
+    },
+    {
+      "id": "q015",
+      "question": "What is the Agility Index?",
+      "expected": "agility_guide_v1_5 / Agility Index",
+      "found_at_rank": null,
+      "snippet_found": true,
+      "top_result": "The Agility Guide to Evidence-Based Change > Agility Acceleration"
+    }
+  ]
+}

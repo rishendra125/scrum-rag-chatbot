@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.env
+venv/
+.venv/
+*.egg-info/
+
+# Rebuildable pipeline outputs -- keep raw PDFs, regenerate the rest via
+# ingestion/embed scripts. Comment these out if you'd rather commit the
+# processed artifacts for reproducibility/review.
+# data/interim/
+# data/processed/
+# embeddings/index/
+
+.DS_Store

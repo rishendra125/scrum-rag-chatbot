@@ -1,0 +1,107 @@
+# pipeline_config.yaml
+# Central config for ingestion: which documents to process, chunk sizing,
+# and the controlled vocabulary used by the metadata tagger.
+
+documents:
+  - doc_id: scrum_guide_2020
+    file: 2020-Scrum-Guide-US.pdf
+    title: "The Scrum Guide"
+    version: "2020"
+    org: "Ken Schwaber & Jeff Sutherland"
+    framework: Scrum
+    license: "CC BY-SA 4.0"
+
+  - doc_id: kanban_guide_2021
+    file: 01-2021_Kanban_Guide.pdf
+    title: "The Kanban Guide for Scrum Teams"
+    version: "January 2021"
+    org: "Scrum.org, Daniel Vacanti, Yuval Yeret"
+    framework: Kanban
+    license: "CC BY-SA 4.0"
+
+  - doc_id: ebm_guide_2024
+    file: Evidence_Based_Management_Guide_2024.pdf
+    title: "The Evidence-Based Management Guide"
+    version: "May 2024"
+    org: "Scrum.org"
+    framework: "Evidence-Based Management"
+    license: "CC BY-SA 4.0"
+
+  - doc_id: agility_guide_v1_5
+    file: The_Agility_Guide_v1_5.pdf
+    title: "The Agility Guide to Evidence-Based Change"
+    version: "1.5"
+    org: "Ken Schwaber & Scrum.org"
+    framework: "Evidence-Based Change"
+    license: "CC BY-SA 4.0"
+
+chunking:
+  target_tokens: 400        # approx target chunk size (word-based proxy)
+  min_tokens: 60            # below this, merge with neighboring chunk
+  overlap_tokens: 50        # sliding overlap when a section must be split
+  respect_headings: true    # never let a chunk span two H2 sections
+
+# Controlled vocabularies used by metadata_tagger.py.
+# Keep these in sync with docs/data_sources.md and the retrieval filters.
+taxonomy:
+  artifact_type:
+    - role
+    - event
+    - artifact
+    - metric
+    - theory-pillar
+    - value
+    - practice
+    - definition
+    - overview
+
+  roles_relevant:
+    - Scrum Master
+    - Product Owner
+    - Developers
+    - Stakeholder
+    - Project Manager/PMO
+
+  concept_keywords:
+    # keyword -> concept_tag  (used by simple rule-based tagging;
+    # extend freely as you ingest more guides)
+    sprint goal: sprint-goal
+    sprint backlog: sprint-backlog
+    sprint planning: sprint-planning
+    daily scrum: daily-scrum
+    weekly scrum: weekly-scrum
+    sprint review: sprint-review
+    sprint retrospective: sprint-retrospective
+    definition of done: definition-of-done
+    product backlog: product-backlog
+    product goal: product-goal
+    increment: increment
+    scrum master: scrum-master-role
+    product owner: product-owner-role
+    developers: developers-role
+    empiricism: empiricism
+    transparency: transparency
+    inspection: inspection
+    adaptation: adaptation
+    kanban board: kanban-board
+    work in progress: wip
+    wip limit: wip-limit
+    cycle time: cycle-time
+    throughput: throughput
+    little's law: littles-law
+    service level expectation: sle
+    unrealized value: unrealized-value
+    current value: current-value
+    ability to innovate: ability-to-innovate
+    time-to-market: time-to-market
+    key value area: kva
+    strategic goal: strategic-goal
+    intermediate goal: intermediate-goal
+    immediate tactical goal: immediate-tactical-goal
+    practice backlog: practice-backlog
+    evaluation backlog: evaluation-backlog
+    agility team: agility-team
+    enterprise product owner: enterprise-product-owner
+    enterprise scrum master: enterprise-scrum-master
+    enterprise change team: enterprise-change-team
+    agility index: agility-index

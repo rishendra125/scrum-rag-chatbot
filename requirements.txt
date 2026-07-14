@@ -1,0 +1,21 @@
+# Core pipeline
+pdfplumber>=0.11.0
+PyYAML>=6.0
+numpy>=1.26
+scikit-learn>=1.4      # local TF-IDF fallback embedder + eval utilities
+
+# API app
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.6
+
+# Optional: real embeddings + LLM generation backends
+# (only needed if EMBEDDING_BACKEND=api / LLM_BACKEND=anthropic)
+openai>=1.30
+anthropic>=0.25
+
+# Optional: real cross-encoder reranker (see retrieval/reranker.py notes)
+# sentence-transformers>=2.7
+
+# Testing
+pytest>=8.0

@@ -1,0 +1,15 @@
+{"id": "q001", "question": "What is the timebox for Sprint Retrospective in a one-month Sprint?", "expected_doc": "scrum_guide_2020", "expected_section": "Sprint Retrospective", "expected_answer_snippet": "three hours"}
+{"id": "q002", "question": "How long is the Daily Scrum?", "expected_doc": "scrum_guide_2020", "expected_section": "Daily Scrum", "expected_answer_snippet": "15-minute"}
+{"id": "q003", "question": "What are the four basic metrics of flow in Kanban?", "expected_doc": "kanban_guide_2021", "expected_section": "The Basic Metrics of Flow", "expected_answer_snippet": "Work in Progress"}
+{"id": "q004", "question": "What does Little's Law describe?", "expected_doc": "kanban_guide_2021", "expected_section": "Little\u2019s Law", "expected_answer_snippet": "relationship"}
+{"id": "q005", "question": "What are the three Scrum pillars of empirical process control?", "expected_doc": "scrum_guide_2020", "expected_section": "Scrum Theory", "expected_answer_snippet": "transparency"}
+{"id": "q006", "question": "What are the four Key Value Areas in Evidence-Based Management?", "expected_doc": "ebm_guide_2024", "expected_section": "EBM Uses Key Value Areas to Examine Improvement Opportunities", "expected_answer_snippet": "Unrealized Value"}
+{"id": "q007", "question": "What is Unrealized Value in EBM?", "expected_doc": "ebm_guide_2024", "expected_section": "Unrealized Value", "expected_answer_snippet": "potential future value"}
+{"id": "q008", "question": "Who is accountable for ordering the Product Backlog?", "expected_doc": "scrum_guide_2020", "expected_section": "Product Owner", "expected_answer_snippet": "Product Owner"}
+{"id": "q009", "question": "What is the Enterprise Product Owner responsible for in the Agility Guide?", "expected_doc": "agility_guide_v1_5", "expected_section": "Enterprise Product Owner", "expected_answer_snippet": "maximizing the value"}
+{"id": "q010", "question": "What are the five Scrum values?", "expected_doc": "scrum_guide_2020", "expected_section": "Scrum Values", "expected_answer_snippet": "Commitment"}
+{"id": "q011", "question": "How long is Sprint Planning for a one-month Sprint?", "expected_doc": "scrum_guide_2020", "expected_section": "Sprint Planning", "expected_answer_snippet": "eight hours"}
+{"id": "q012", "question": "What is a Service Level Expectation (SLE) in Kanban?", "expected_doc": "kanban_guide_2021", "expected_section": "Active Management of Work Items", "expected_answer_snippet": "elapsed days"}
+{"id": "q013", "question": "What are the Evidence-Based Change domains in the Agility Guide?", "expected_doc": "agility_guide_v1_5", "expected_section": "Domains", "expected_answer_snippet": "Enterprise"}
+{"id": "q014", "question": "What is the definition of an Increment in Scrum?", "expected_doc": "scrum_guide_2020", "expected_section": "Increment", "expected_answer_snippet": "concrete stepping stone"}
+{"id": "q015", "question": "What is the Agility Index?", "expected_doc": "agility_guide_v1_5", "expected_section": "Agility Index", "expected_answer_snippet": "consolidation"}
